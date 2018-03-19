@@ -40,6 +40,10 @@ def play_game
       @game.add_guess
       # game stuff for incorrect guess
       if @game.is_this_guess_correct(@guess, @game.right_answer) == false
+
+        @game.how_many_correct_colors(@guess, @game.right_answer)
+        @game.how_many_correct_positions(@guess, @game.right_answer)
+
         puts """
         '#{@guess}' has #{@game.correct_colors} of the correct elements with #{@game.correct_positions} in the correct positions.
         You've taken #{@game.total_guesses} guesses.
@@ -61,12 +65,12 @@ def play_game
           if @menu_choice == "p" || @menu_choice == "play"
             play_game
           elsif @menu_choice == "q" || @menu_choice == "quit"
-            break
+            break #need it to break out of one more level
           else
             puts "Please enter p or play, q or quit."
           end
         end
-
+        break
       end
     end
   end

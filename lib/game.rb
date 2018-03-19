@@ -5,15 +5,17 @@ attr_reader :colors,
             :right_answer,
             :total_guesses,
             :correct_colors,
-            :correct_positions
+            :correct_positions,
+            :concurrent_positions
 
   def initialize
     # @colors = [["r", "b", "g", "y"], ["r", "b", "g", "y"], ["r", "b", "g", "y"], ["r", "b", "g", "y"]]
-    @colors = %W[r b g y]
+    @colors = %w[r b g y]
     @right_answer = []
     @total_guesses = 0
     @correct_colors = 0
     @correct_positions = 0
+    @concurrent_positions = []
   end
 
 #generate right_answer with colors that can repeat; scalable to harder games/more colors
@@ -30,24 +32,31 @@ attr_reader :colors,
 
 #checks both color element presence and index position in right_answer
 def is_this_guess_correct(player_guess, current_right_answer)
-  #return number of correct colors
- (player_guess.chars.length).times do
-   @correct_colors += ()
- end
-
-  @correct_positions <<
-
   player_guess.chars == current_right_answer
 end
 
-  # def check_colors(player_guess, current_right_answer)
-  #   player_guess.chars
-  #
-  # end
-  #
-  # def check_position(player_guess, current_right_answer)
-  #
-  # end
+#return number of correct colors
+def how_many_correct_colors(player_guess, current_right_answer)
+  #(player_guess.chars.length).times do
+   @correct_colors = current_right_answer.uniq.count do |color|
+    player_guess.chars.include?(color)
+  end
+  #some integer-giving comparison between player_guess.chars and current_right_answer; in boolean, true = 1; include? would give a +=1
+  #end
+end
+
+  def how_many_correct_positions(player_guess, current_right_answer)
+    @concurrent_positions = current_right_answer.zip(player_guess.chars)
+      @correct_positions = concurrent_positions.count do |answer, guess|
+        answer == guess
+      end
+      #not include? bc not index-specific
+      #each_with_index just prints the elements with their indeces
+      #current_right_answer.select.count do something with the player_guess.chars
+      #zip works with nuance best, zippers the two arrays into one subarray in each index
+
+  end
+
 end
 
 =begin
@@ -77,13 +86,4 @@ def elapsed_time
   @seconds = ((@stop - @start) - @minutes).sec
 end
 
-couldn't get @right_answer set to generated answer for full check:
-def is_this_guess_correct(player_guess)
-  @this_guess = player_guess.chars
-  @this_guess == @right_answer
-
-  # player_guess.all? do |element|
-  # element.eql?(@right_answer) #is this element found in the same indexed position in @right_answer?
-  # end
-end
 =end

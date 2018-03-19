@@ -40,22 +40,25 @@ class GameTest < Minitest::Test
     assert_equal true, @game.is_this_guess_correct(@guess, @right_answer)
   end
 
-  def test_correct_colors_starts_as_0
+  def test_correct_colors_initially_set_to_0
     assert_equal 0, @game.correct_colors
   end
 
-  def test_correct_colors_returns_integer
-
+  def test_correct_colors_in_guess_returns_correct_integer
+    @right_answer = ["r", "b", "r", "r"]
+    @guess = "gggg"
+    assert_equal 0, @game.how_many_correct_colors(@guess, @right_answer)
   end
 
   def test_correct_positions_starts_as_0
     assert_equal 0, @game.correct_positions
   end
 
-  # def test_if_guessed_colors_are_present_in_right_answer
-  #   @right_answer = ["r", "b", "g", "y"]
-  #   @guess = "rbgy"
-  # end
+  def test_correct_positions_in_guess_returns_correct_integer
+    @right_answer = ["r", "b", "g", "y"]
+    @guess = "brgr"
+    assert_equal 1, @game.how_many_correct_positions(@guess, @right_answer)
+  end
 end
 =begin
 Stuff needed for timer:
