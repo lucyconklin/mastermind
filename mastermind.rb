@@ -1,5 +1,24 @@
 require './lib/game'
 require 'pry'
+### 1. I usually get rid of all 'pry' requirements before submitting a pull request.
+### It just cleans up the code a bit and you won't use it in a production env.
+### The Javascript equivalent is 'debugger', and we forget all the time.
+
+### 2. I see a good opportunity to make this a bit more readable. You have code
+### that does stuff, and other code that is a message to the user. What if we
+### put those messages into their own section. We do this in rails a lot with
+### error messages. They would really clog up the code, but if we can call
+### something like errors.messages.timesheet_events.multiple_clock_in_events 
+### you can see how we break down those messages into groups, and we can edit 
+### them all together. Also! And I think this is fun, this would be a really easy
+### way to start supporting other languages. You've started this process below with 
+### def instructions ...
+
+### 4. I saw that one of the extensions is color coding the output. Let me know if 
+### you want to tackle that! Time estimate: 25 minutes. There are a few ways to
+### do it, but this one is pretty quick: 
+### https://stackoverflow.com/questions/1489183/colorized-ruby-output
+  
 
 # Variables
 @prompt = ">"
@@ -7,6 +26,10 @@ require 'pry'
 # Functions Section
 def play_game
   @game = Game.new #call in the Game class and make a new game instance
+  
+  ### 3. Turing doesn't seem big on comments, but we defintely need them in our app.
+  ### 3a. Also, my friend found a code comment from 1989 a few months ago.
+  
   # @game.start # start the timer
   @game.generate_right_answer # create a right answer
 
@@ -40,9 +63,14 @@ def play_game
       @game.add_guess
       # game stuff for incorrect guess
       if @game.is_this_guess_correct(@guess, @game.right_answer) == false
+### 5. When we have a method that returns a boolean, we differentiate it by
+### ending it in a question mark. So this would become
+### @game.is_this_guess_correct?(args)
 
         @game.how_many_correct_colors(@guess, @game.right_answer)
         @game.how_many_correct_positions(@guess, @game.right_answer)
+### 6. A better name for these might be @game.correct_color_count
+### and @game.correct_position_count
 
         puts """
         '#{@guess}' has #{@game.correct_colors} of the correct elements with #{@game.correct_positions} in the correct positions.
